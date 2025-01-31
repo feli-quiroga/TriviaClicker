@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trivia Clicker</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+    header {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .container {
+      display: flex;
+      flex: 1;
+    }
+    .box {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .left {
+      background-color: lightblue;
+    }
+    .right {
+      background-color: lightcoral;
+    }
+    .full-screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 36px;
+      height: 100vh;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <header>Trivia Clicker</header>
+  <div class="container">
+    <div class="box left" id="leftBox">Left</div>
+    <div class="box right" id="rightBox">Right</div>
+  </div>
+
+  <script>
+    let clicked = false;
+
+    function resetScreen() {
+      document.body.innerHTML = `
+        <header>Trivia Clicker</header>
+        <div class="container">
+          <div class="box left" id="leftBox">Left</div>
+          <div class="box right" id="rightBox">Right</div>
+        </div>
+      `;
+
+      // Reattach event listeners after resetting the DOM
+      clicked = false;
+      document.getElementById('leftBox').addEventListener('click', () => handleClick('Left', 'lightblue'));
+      document.getElementById('rightBox').addEventListener('click', () => handleClick('Right', 'lightcoral'));
+    }
+
+    function handleClick(side, color) {
+      if (!clicked) {
+        clicked = true;
+        document.body.innerHTML = `<div class="full-screen" style="background-color: ${color};">${side} Clicked!</div>`;
+        setTimeout(() => {
+          alert(`${side} clicked first!`);
+          resetScreen();
+        }, 100); // Short delay to ensure the background updates before the alert
+      }
+    }
+
+    // Attach event listeners to both boxes
+    document.getElementById('leftBox').addEventListener('click', () => handleClick('Left', 'lightblue'));
+    document.getElementById('rightBox').addEventListener('click', () => handleClick('Right', 'lightcoral'));
+  </script>
+</body>
+</html>
